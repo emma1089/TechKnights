@@ -58,14 +58,15 @@
 						placeholder="Boston Diesel Cafe">
 				</div>
 				<button type="submit" class="btn btn-success" id="search_events">
-					<span class="glyphicon glyphicon-search"></span>
+					Search
 				</button>
+				<button class="btn btn-success" id="getmap">Map</button>
 			</form>
 
 			<h2 id="waitingclass">Please wait for events....</h2>
 			<ul class="events"></ul>
 
-			<button class="btn btn-success" id="getmap">Map</button>
+			
 			<div id="map"></div>
 			
 			

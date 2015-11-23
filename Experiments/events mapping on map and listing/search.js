@@ -9,12 +9,17 @@ $(function() {
 	
 	console.log("search event jquery");
 
-		
-	
-
 	$("#waitingclass").hide();
 	$("#map").hide();
-
+	$("#getmap").hide();
+	
+	$.get("http://ipinfo.io", function(response) {
+		//console.log(response.ip + "  " + response.city + "  "+ response.region);
+		user_location = response.city;
+		// $("#ip").html(response.ip);
+		// $("#address").html(response.city + ", " + response.region);
+	}, "jsonp");
+	
 	$("#search_events").click(function(e) {
 		get_event_ids();
 		e.preventDefault();
@@ -32,18 +37,27 @@ $(function() {
 
 function get_event_ids() {
 	$("#waitingclass").show();
+	$("#map").hide();
 	var location = $("#location").val().toLowerCase();
 	var category = $("#category").val().toLowerCase();
 	var event_name = $("#event_name").val().toLowerCase();
 	// console.log(location+" "+category+" "+event_name);
-	var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location=boston"
+	if (location == "") {
+		var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location="
+				+ user_location;
+	} else {
+		var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location="
+				+ location;
+		
+	}
+	//var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location=boston&page_size=50"
 	
 	$('#location').val('');
 	$('#category').val('');
 	$('#event_name').val('');
 
-	 console.log(searchurl);
-
+	console.log(searchurl);
+	$(".events").empty();
 	$.ajax({
 		url : searchurl,
 		dataType : "jsonp",
@@ -57,16 +71,18 @@ function get_event_ids() {
 
 function populate_events(result) {
 	$("#waitingclass").hide();
-
+	
+	
 	var htmleventstag = $(".events");
 	var listofevents = result.events.event;
 	// console.log(result.search_time);
 	// console.log(listofevents);
-
+	locations = [];
+	
 	$.each(listofevents, function(i, event) {
 
-		htmleventstag.append("<li>" + event.title + "<br/> " + event.start_time
-				+ "<br/>" + event.venue_address + "</li>");
+		htmleventstag.append("<li><strong>" + event.title + "</strong><br/> " + event.start_time
+				+ "<br/>" + event.venue_address +", "+ event.city+"</li>");
 		var venue = event.venue_address;
 		var latitude = event.latitude;
 		var longitude = event.longitude;
@@ -75,7 +91,8 @@ function populate_events(result) {
 			name : venue,
 			latlng : new google.maps.LatLng(latitude, longitude)
 		});
-
+		
+	$("#getmap").show();
 		/*
 		 * var eventurl =
 		 * "http://api.eventful.com/json/events/get?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&id="+event.id;
@@ -101,7 +118,7 @@ function googlemap() {
 	var mycenter = locations[0].latlng;
 	var mapoptions = {
 		center : mycenter,
-		zoom : 10,
+		zoom : 8,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	};
 	// console.log(mapoptions);

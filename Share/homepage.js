@@ -29,10 +29,14 @@ $(function(){
 		e.preventDefault();
 	});
 	
-	$("#getmap").click(function(e) {
-		googlemap();
-		e.preventDefault();
-	});
+	
+	$('#events').on("click", '.div_event_name', function () {
+		var ID=$(this).find('.each_event_id').val(); 
+		
+        sessionStorage.setItem("event_ID", ID);
+        window.open("event_details.jsp", "_blank");
+    });
+	
 });
 
 
@@ -73,7 +77,7 @@ function get_event_ids() {
 function populate_events(result) {
 	$("#waitingclass").hide();
 	
-	var htmleventstag = $(".events");
+	var htmleventstag = $("#events");
 	var listofevents = result.events.event;
 	
 	//console.log(listofevents);
@@ -86,25 +90,21 @@ function populate_events(result) {
 		if(event.image!=null ){
 			if(event.image.medium !=null){
 				image=event.image.medium.url;
-				console.log(image);
+				
 			}
 			else{
-				image="";
+				image="WebContent/resorces/events_medium.jpg";
 			}
 			
 		}
 		
-		
-		htmleventstag.append("<li><img src="+image+"><strong>" + event.title + "</strong><br/> " + formatteddate
-				+ "<br/>" + event.venue_address +", "+ event.city_name+"</li>");
-		
-		var venue = event.venue_address;
-		var latitude = event.latitude;
-		var longitude = event.longitude;
+		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"><br><strong>" + event.title + "</strong><br/> " + formatteddate
+				+ "<br/>" + event.venue_address +", "+ event.city_name+	"<input type='hidden' class='each_event_id' value='" + event.id + "' /></div></li>");
+	
 
 		locations.push({
 			name : event.title,
-			latlng : new google.maps.LatLng(latitude, longitude)
+			latlng : new google.maps.LatLng(event.latitude, event.longitude)
 		});
 
 	});

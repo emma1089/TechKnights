@@ -11,17 +11,22 @@
 	background-color: #F0F0F0;	
 	margin-bottom: 20px;
 }
-.events{
+#events{
 	list-style-type: none;
     height:100%;
     padding: 0px;
 	
 }
-.events li{
-	margin-bottom: 5px;
-	background-color: #F0F0F0  ;
-	padding: 5px;
-	
-	
+.div_event_name{
+	margin-bottom: 20px;
+	padding: 15px;
+	background-color: #383838  ;
+	color:#ffffff;
+}
+
+.div_event_name:hover{
+    cursor:pointer;
+    background-color: #F0F0F0;
+    color:#000000 ;
 }
 

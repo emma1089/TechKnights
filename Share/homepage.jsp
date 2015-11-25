@@ -76,7 +76,9 @@
 		</div>
 		
 		<div class="centerspacing">
-		<ul class="events"></ul>
+		<ul id="events"></ul>
+		<div class="row"><div>
+
 		
 		</div>
 		

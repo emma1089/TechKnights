@@ -85,26 +85,26 @@
             </div> 
           </form>
         </div> 
-        <div class="logmod__alter">
-          <div class="logmod__alter-container">
-            <a href="#" class="connect facebook">
-              <div class="connect__icon">
-                <i class="fa fa-facebook"></i>
-              </div>
-              <div class="connect__context">
-                <span>Sign in with <strong>Facebook</strong></span>
-              </div>
-            </a>
-            <a href="#" class="connect googleplus">
-              <div class="connect__icon">
-                <i class="fa fa-google-plus"></i>
-              </div>
-              <div class="connect__context">
-                <span>Sign in with <strong>Google+</strong></span>
-              </div>
-            </a>
-          </div>
-        </div>
+<!--         <div class="logmod__alter"> -->
+<!--           <div class="logmod__alter-container"> -->
+<!--             <a href="#" class="connect facebook"> -->
+<!--               <div class="connect__icon"> -->
+<!--                 <i class="fa fa-facebook"></i> -->
+<!--               </div> -->
+<!--               <div class="connect__context"> -->
+<!--                 <span>Sign in with <strong>Facebook</strong></span> -->
+<!--               </div> -->
+<!--             </a> -->
+<!--             <a href="#" class="connect googleplus"> -->
+<!--               <div class="connect__icon"> -->
+<!--                 <i class="fa fa-google-plus"></i> -->
+<!--               </div> -->
+<!--               <div class="connect__context"> -->
+<!--                 <span>Sign in with <strong>Google+</strong></span> -->
+<!--               </div> -->
+<!--             </a> -->
+<!--           </div> -->
+<!--         </div> -->
           </div>
       </div>
     </div>

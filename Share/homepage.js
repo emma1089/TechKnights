@@ -3,8 +3,7 @@
  */
 var locations = [];
 var user_location="";
-var latitude="";
-var longitude="";
+
 
 $(function(){
 	//$("#map").hide();
@@ -36,6 +35,8 @@ $(function(){
         sessionStorage.setItem("event_ID", ID);
         window.open("event_details.jsp", "_blank");
     });
+	
+	
 	
 });
 
@@ -78,6 +79,7 @@ function populate_events(result) {
 	$("#waitingclass").hide();
 	
 	var htmleventstag = $("#events");
+	htmleventstag.empty();
 	var listofevents = result.events.event;
 	
 	//console.log(listofevents);
@@ -93,18 +95,22 @@ function populate_events(result) {
 				
 			}
 			else{
-				image="WebContent/resorces/events_medium.jpg";
+				image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
 			}
 			
 		}
+		else{
+			image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
+		}
 		
-		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"><br><strong>" + event.title + "</strong><br/> " + formatteddate
+		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"></img><br><strong>" + event.title + "</strong><br/> " + formatteddate
 				+ "<br/>" + event.venue_address +", "+ event.city_name+	"<input type='hidden' class='each_event_id' value='" + event.id + "' /></div></li>");
 	
 
 		locations.push({
 			name : event.title,
-			latlng : new google.maps.LatLng(event.latitude, event.longitude)
+			latlng : new google.maps.LatLng(event.latitude, event.longitude),
+			imagelink: image
 		});
 
 	});
@@ -127,11 +133,13 @@ function googlemap() {
 	
 	for (var i = 0; i < locations.length; i++) {
 		
+		var contentstr="<strong>"+locations[i].name+"</strong><img width='80' src=" + locations[i].imagelink + ">";
 		var myinfowindow = new google.maps.InfoWindow({
-		    content: locations[i].name
+		    content:  contentstr
 		});
 		
 		var marker = new google.maps.Marker({
+			record_id:i,
 			position : locations[i].latlng,
 			map : map,
 			title : locations[i].name,
@@ -139,6 +147,7 @@ function googlemap() {
 		});
 		
 		google.maps.event.addListener(marker, 'click', function() {
+			
 	        this.infowindow.open(map, this);
 
 		});
@@ -148,3 +157,4 @@ function googlemap() {
 	google.maps.event.addDomListener(window, 'load');
 	
 }
+

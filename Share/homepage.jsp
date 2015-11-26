@@ -27,7 +27,7 @@
 <body>
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
-		<div class=container>
+		<div class="container">
 			<div class="navbar-header">
 				<a class="navbar-brand">What's Happening Around Me!</a>
 			</div>
@@ -77,7 +77,7 @@
 		
 		<div class="centerspacing">
 		<ul id="events"></ul>
-		<div class="row"><div>
+		
 
 		
 		</div>

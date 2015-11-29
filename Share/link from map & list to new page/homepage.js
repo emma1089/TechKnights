@@ -12,7 +12,7 @@ $(function(){
 		//console.log(response.ip + "  " + response.city + "  "+ response.region);
 		user_location = response.city;
 		var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location="+user_location+"&page_size=50";
-		
+		//console.log(searchurl);
 			$.ajax({
 				url : searchurl,
 				dataType : "jsonp",
@@ -37,6 +37,12 @@ $(function(){
     });
 	
 	
+	$('#map').on("click", '.div_event_name', function () {
+		var ID=$(this).find('.each_event_id').val(); 
+		
+        sessionStorage.setItem("event_ID", ID);
+        window.open("event_details.jsp", "_blank");
+    });
 	
 });
 
@@ -106,11 +112,20 @@ function populate_events(result) {
 		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"></img><br><strong>" + event.title + "</strong><br/> " + formatteddate
 				+ "<br/>" + event.venue_address +", "+ event.city_name+	"<input type='hidden' class='each_event_id' value='" + event.id + "' /></div></li>");
 	
-
+		var custom_eventaddress="";
+		if(event.venue_address==null){
+			custom_eventaddress=event.city_name;
+		}
+		else{
+			custom_eventaddress=event.venue_address+", "+event.city_name;
+		}
 		locations.push({
 			name : event.title,
 			latlng : new google.maps.LatLng(event.latitude, event.longitude),
-			imagelink: image
+			imagelink: image,
+			venue_name:event.venue_name,
+			id:event.id,
+			address:custom_eventaddress
 		});
 
 	});
@@ -125,7 +140,7 @@ function googlemap() {
 	var mycenter = locations[0].latlng;
 	var mapoptions = {
 		center : mycenter,
-		zoom : 8,
+		zoom : 9,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	};
 	
@@ -133,7 +148,10 @@ function googlemap() {
 	
 	for (var i = 0; i < locations.length; i++) {
 		
-		var contentstr="<strong>"+locations[i].name+"</strong><img width='80' src=" + locations[i].imagelink + ">";
+		var contentstr="<div class='div_event_name'><strong>"+locations[i].name+
+		"</strong><img class='infowindowimage' width='80' src=" + locations[i].imagelink + "><br>"+
+		locations[i].venue_name+"<br>"+locations[i].address+"<input type='hidden' class='each_event_id' value='" + locations[i].id + "' /></div>";
+		
 		var myinfowindow = new google.maps.InfoWindow({
 		    content:  contentstr
 		});

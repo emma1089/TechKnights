@@ -2,6 +2,7 @@ var dest_latitude="";
 var dest_longitude="";
 var src_latitude="";
 var src_longitude="";
+var title="";
 $(function(){
 	
 	if (navigator.geolocation) {
@@ -59,7 +60,7 @@ function eventdetails(eventdetails){
 	
 	dest_latitude=eventdetails.latitude;
 	dest_longitude=eventdetails.longitude;
-	
+	title=eventdetails.title;
 	htmleventstag.append("<li><strong>" + eventdetails.title + "</strong><br/> " + formatteddate
 		+ "<br/>" + eventdetails.description +"<input type='hidden' class='each_event_id' value='" + eventdetails.postal_code + "' /></div></li>");
 
@@ -73,16 +74,36 @@ function googlemap() {
 	//var myLatLng = new google.maps.LatLng(latitude,longitude);
 	 var directionsDisplay = new google.maps.DirectionsRenderer;
 	  var directionsService = new google.maps.DirectionsService;
-	  var map = new google.maps.Map(document.getElementById('map'), {
-	    zoom: 12,
-	    center: {lat: parseFloat(src_latitude) , lng: parseFloat(src_longitude)}
-	  });
-	  directionsDisplay.setMap(map);
+	  if(!src_latitude){
+		  console.log("if part");
+		  	var myLatLng = {lat: parseFloat(dest_latitude), lng: parseFloat(dest_longitude)};
 
-	  calculateAndDisplayRoute(directionsService, directionsDisplay);
-	  document.getElementById('mode').addEventListener('change', function() {
-	    calculateAndDisplayRoute(directionsService, directionsDisplay);
-	  });
+		  	var map = new google.maps.Map(document.getElementById('map'), {
+		    zoom: 12,
+		    center: myLatLng
+		  });
+
+		  var marker = new google.maps.Marker({
+		    position: myLatLng,
+		    map: map,
+		    title: title
+		  });
+		 // google.maps.event.addDomListener(window, 'load');
+		  $("#mode").hide();
+	  }
+	  else
+	  {
+		  var map = new google.maps.Map(document.getElementById('map'), {
+			  zoom: 12,
+			  center: {lat: parseFloat(src_latitude) , lng: parseFloat(src_longitude)}
+		  });
+		  directionsDisplay.setMap(map);
+
+		  calculateAndDisplayRoute(directionsService, directionsDisplay);
+		  document.getElementById('mode').addEventListener('change', function() {
+		  calculateAndDisplayRoute(directionsService, directionsDisplay);
+		  });
+	  }
 	}
 
 	function calculateAndDisplayRoute(directionsService, directionsDisplay) {

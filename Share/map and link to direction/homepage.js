@@ -7,21 +7,16 @@ var user_location="";
 
 $(function(){
 	//$("#map").hide();
-	$.get("http://ipinfo.io", function(response) {
-		
-		//console.log(response.ip + "  " + response.city + "  "+ response.region);
-		user_location = response.city;
-		var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location="+user_location+"&page_size=50";
-		
-			$.ajax({
-				url : searchurl,
-				dataType : "jsonp",
-				success : populate_events,
-				error : function(XMLHttpRequest, textStatus, errorThrown) {
-					alert("Status: " + XMLHttpRequest + "Error: " + errorThrown);
-				}
-			});
-	}, "jsonp");
+	
+	if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+       
+    	alert("Geolocation is not supported by this browser.");
+        
+    }
+	
+	
 	
 	$("#search_events").click(function(e) {
 		get_event_ids();
@@ -36,9 +31,69 @@ $(function(){
         window.open("event_details.jsp", "_blank");
     });
 	
+	
+	$('#map').on("click", '.div_event_name', function () {
+		var ID=$(this).find('.each_event_id').val(); 
+		
+        sessionStorage.setItem("event_ID", ID);
+        window.open("event_details.jsp", "_blank");
+    });
+	
 });
 
 
+
+function showPosition(position) {
+	latitude_longitude = position.coords.latitude + "," + position.coords.longitude;
+	console.log(latitude_longitude);
+	
+	user_location = latitude_longitude;
+	//http://api.eventful.com/rest/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&where=32.746682,-117.162741&within=25
+	var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&where="+user_location+"&within=25";
+	console.log("inside showPosition function : "+searchurl);
+		$.ajax({
+			url : searchurl,
+			dataType : "jsonp",
+			success : populate_events,
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("Status: " + XMLHttpRequest + "Error: " + errorThrown);
+			}
+		});
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            console.log("User denied the request for Geolocation.");
+            
+            $.get("http://ipinfo.io", function(response) {
+        		
+        		//console.log(response.ip + "  " + response.city + "  "+ response.region);
+        		user_location = response.city;
+        		var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location="+user_location+"&page_size=50";
+        		console.log("inside error function : "+searchurl);
+        			$.ajax({
+        				url : searchurl,
+        				dataType : "jsonp",
+        				success : populate_events,
+        				error : function(XMLHttpRequest, textStatus, errorThrown) {
+        					alert("Status: " + XMLHttpRequest + "Error: " + errorThrown);
+        				}
+        			});
+        	}, "jsonp");
+            
+            break;
+        case error.POSITION_UNAVAILABLE:
+        	console.log("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+        	console.log("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+        	console.log("An unknown error occurred.");
+            break;
+    }
+}
 
 function get_event_ids() {
 	$("#waitingclass").show();
@@ -93,18 +148,31 @@ function populate_events(result) {
 				
 			}
 			else{
-				image="WebContent/resorces/events_medium.jpg";
+				image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
 			}
 			
 		}
+		else{
+			image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
+		}
 		
-		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"><br><strong>" + event.title + "</strong><br/> " + formatteddate
+		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"></img><br><strong>" + event.title + "</strong><br/> " + formatteddate
 				+ "<br/>" + event.venue_address +", "+ event.city_name+	"<input type='hidden' class='each_event_id' value='" + event.id + "' /></div></li>");
 	
-
+		var custom_eventaddress="";
+		if(event.venue_address==null){
+			custom_eventaddress=event.city_name;
+		}
+		else{
+			custom_eventaddress=event.venue_address+", "+event.city_name;
+		}
 		locations.push({
 			name : event.title,
-			latlng : new google.maps.LatLng(event.latitude, event.longitude)
+			latlng : new google.maps.LatLng(event.latitude, event.longitude),
+			imagelink: image,
+			venue_name:event.venue_name,
+			id:event.id,
+			address:custom_eventaddress
 		});
 
 	});
@@ -119,7 +187,7 @@ function googlemap() {
 	var mycenter = locations[0].latlng;
 	var mapoptions = {
 		center : mycenter,
-		zoom : 8,
+		zoom : 9,
 		mapTypeId : google.maps.MapTypeId.ROADMAP
 	};
 	
@@ -127,11 +195,16 @@ function googlemap() {
 	
 	for (var i = 0; i < locations.length; i++) {
 		
+		var contentstr="<div class='div_event_name'><strong>"+locations[i].name+
+		"</strong><img class='infowindowimage' width='80' src=" + locations[i].imagelink + "><br>"+
+		locations[i].venue_name+"<br>"+locations[i].address+"<input type='hidden' class='each_event_id' value='" + locations[i].id + "' /></div>";
+		
 		var myinfowindow = new google.maps.InfoWindow({
-		    content: locations[i].name
+		    content:  contentstr
 		});
 		
 		var marker = new google.maps.Marker({
+			record_id:i,
 			position : locations[i].latlng,
 			map : map,
 			title : locations[i].name,
@@ -149,3 +222,4 @@ function googlemap() {
 	google.maps.event.addDomListener(window, 'load');
 	
 }
+

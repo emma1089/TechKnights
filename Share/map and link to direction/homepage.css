@@ -30,3 +30,36 @@
     color:#000000 ;
 }
 
+
+@media screen and (min-width: 1112px) and (max-width: 1200px) {
+    #map{
+	width: 500px; 
+	height: 500px;
+    }
+}
+
+@media screen and (max-width: 1112px) {
+    #map{
+	width: 800px; 
+	
+    }
+}
+@media screen and (max-width: 900px) {
+    #map{
+	width: 600px; 
+	
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #map{
+	width: 300px; 
+	height: 250px;
+    }
+}
+@media screen and (max-width: 390px) {
+    #map{
+	width: 200px; 
+	height: 200px;
+    }
+}

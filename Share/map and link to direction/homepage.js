@@ -8,6 +8,7 @@ var user_location="";
 $(function(){
 	//$("#map").hide();
 	
+	
 	if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition, showError);
     } else {
@@ -68,8 +69,8 @@ function showError(error) {
             
             $.get("http://ipinfo.io", function(response) {
         		
-        		//console.log(response.ip + "  " + response.city + "  "+ response.region);
-        		user_location = response.city;
+        		console.log(response.ip + "  " + response.city + "  "+ response.region);
+        		user_location = response.city+" "+response.region;
         		var searchurl = "http://api.eventful.com/json/events/search?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&location="+user_location+"&page_size=50";
         		console.log("inside error function : "+searchurl);
         			$.ajax({

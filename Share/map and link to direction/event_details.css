@@ -1,7 +1,91 @@
 @CHARSET "ISO-8859-1";
 #map{
-	width: 1100px; 
-	height: 500px;
+	width: 450px; 
+	height: 450px;
 	background-color: #F0F0F0;	
 	margin-bottom: 20px;
+}
+
+.centerspacing{
+	margin: 30px;
+}
+
+.col-md-6{
+	padding-left: 0px;
+}
+#mode{
+	width:100px;
+}
+#events{
+	list-style: none;
+	
+}
+ul{
+	padding: 0px;
+}
+h2{
+	padding-left:30px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+img{
+	margin-top:25px;
+	margin-bottom:25px;
+}
+.bg-success{
+	padding:10px;
+}
+
+p a {
+    color: #3C763D;
+    text-decoration: none;
+}
+
+
+p a:hover{
+    cursor:pointer;
+    text-decoration: none;	
+    color:#000000 ;
+}   
+.ticket_class{
+	text-align:center;
+	margin-right:20px;
+	float:left;
+}
+
+.ticket_class p{
+	width:200px;
+	height:100px;
+}
+@media screen and (min-width: 1112px) and (max-width: 1200px) {
+    #map{
+	width: 500px; 
+	height: 500px;
+    }
+}
+
+@media screen and (max-width: 1112px) {
+    #map{
+	width: 450px; 
+	
+    }
+}
+@media screen and (max-width: 900px) {
+    #map{
+	width: 450px; 
+	
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #map{
+	width: 350px; 
+	height: 250px;
+    }
+}
+@media screen and (max-width: 390px) {
+    #map{
+	width: 200px; 
+	height: 200px;
+    }
 }

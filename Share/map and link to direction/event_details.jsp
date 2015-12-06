@@ -14,15 +14,19 @@
 <!-- jQuery library -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>	
 <!-- Google map API -->
 <script
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhTAgod-mzwEWcaX_R2K7BRQYEVXlZcXI&signed_in=true"
 	async defer></script>
+	<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="../js/event_details.js"></script>
+<!--  <script src="../js/jquery.zoomooz.min.js"></script>-->
+
 
 <!-- Latest compiled JavaScript -->
-<script
-	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 	<nav class="navbar navbar-inverse">
@@ -48,7 +52,9 @@
 				<ul id="events"></ul>
 			</div>
 			<div class="col-md-6">
-				<h4>Directions:</h4>
+		
+			
+			<h4>Directions:</h4>
 				<select id="mode" class="form-control">
 					<option value="DRIVING">Driving</option>
 					<option value="WALKING">Walking</option>
@@ -63,17 +69,17 @@
 		<h3 class="centerspacing">Ticketing Details:</h3>
 		<div id="tickets" class="row centerspacing"></div>
 		
-		<hr>
+		
 		
 		<h3 class="centerspacing">Categories:</h3>
 		<div id="categories" class="row centerspacing"></div>
 		
-		<hr>
+		
 		
 		<h3 class="centerspacing">Associated tags:</h3>
 		<div id="tags" class="row centerspacing"></div>
 		
-		<hr>
+		
 		
 		<h3 class="centerspacing"><div id="venue_name"></div></h3>
 		<!-- <div id="venue_desc" class="row centerspacing"></div> -->

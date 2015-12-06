@@ -1,4 +1,5 @@
-@CHARSET "ISO-8859-1";
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
 #map{
 	width: 450px; 
 	height: 450px;
@@ -12,6 +13,38 @@
 
 .col-md-6{
 	padding-left: 0px;
+}
+
+
+[class*="fontawesome-"]:before {
+  font-family: 'FontAwesome', sans-serif;
+}
+
+.up:hover{
+	
+  cursor:pointer;
+}
+
+.up{
+  border-radius:10px;
+  background:grey;
+  color:rgba(255,255,255,0.5);
+  float:left;
+  font-size:50px;
+  height:80px;
+  line-height:90px;
+  text-align:center;
+  transition:all .2s linear;
+  width:90px;
+}
+.clicked{
+  background:#2ecc71;
+  color:#fff;
+}
+
+.img-thumbnail{
+	margin-bottom: 10px;
+	margin-top: 0px;
 }
 #mode{
 	width:100px;

@@ -1,8 +1,16 @@
+/*These variables are for liked events*/
+var global_title="";
+var global_date="";
+var global_time="";
+var global_venue="";
+var global_address="";
+
 var dest_latitude="";
 var dest_longitude="";
 var src_latitude="";
 var src_longitude="";
 var title="";
+
 $(function(){
 	
 	if (navigator.geolocation) {
@@ -12,9 +20,36 @@ $(function(){
     	console.log("Geolocation is not supported by this browser.");
         
     }
+	$("#events").on("click", "#up",function(){
+		//alert("here");
+		  $(this).toggleClass('clicked');
+		  console.log(global_title+" "+global_date+" "+global_time+" "+global_venue+" "+global_address);
+		  
+//	    $.ajax({
+//        type : "POST",
+//        url : "likeEvent",
+//        data : {            
+//               "title": global_title,
+//               "date":global_date,
+//               "time":global_time,
+//               "venue":global_venue,
+//               "address":global_address
+//        },
+//        success : function(response) {
+//        	var oldimg = "http://blogs.nature.com/news/files/elections%20small.JPG";
+//            var newimg = "https://wiki.sugarlabs.org/images/7/74/Ubuntu-small.jpg";
+//            element.src = element.bln ? oldimg : newimg;
+//            element.bln = !element.bln; 
+//        },
+//        error : function(e) {
+//           alert('Error: ' + e);
+//        }
+//    }); 
+		  
+		});
 	
 	var ID = sessionStorage.getItem("event_ID");
-	console.log(ID);
+	//console.log(ID);
 	var eventurl = "http://api.eventful.com/json/events/get?app_key=Z8NPhGBg9CxVF58W&oauth_fields=8adc404a77d54837a56a&id="+ID;
 	
 	$.ajax({
@@ -29,6 +64,9 @@ $(function(){
 	
 	
 });
+
+
+
 
 function showPosition(position) {
 	src_latitude = position.coords.latitude;
@@ -53,8 +91,10 @@ function showError(error) {
     }
 }
 
+
 function eventdetails(eventdetails){
-	console.log(eventdetails);
+	//console.log(eventdetails);
+	
 	var date=new Date(eventdetails.start_time);
 	
 	var displayDate = (date.getMonth()+1)+ '/' +date.getDate()+ '/' +date.getFullYear();
@@ -66,6 +106,12 @@ function eventdetails(eventdetails){
 	dest_longitude=eventdetails.longitude;
 	title=eventdetails.title;
 	$("h2").html(title);
+	
+	
+	/*These global variables are for passing values to database*/
+	global_title=title;
+	global_date=displayDate;
+	global_time=time;
 	
 	var description="";
 	if(eventdetails.description != null){
@@ -111,8 +157,10 @@ function eventdetails(eventdetails){
 	var venue_name="";
 	if(eventdetails.venue_name !=null){
 		venue_name="<b>Venue : </b>"+eventdetails.venue_name;
+		global_venue=eventdetails.venue_name;
 	}else{
 		venue_name="<b>Venue : </b>Venue details are not specified by the organizer";
+		global_venue="Venue details are not specified by the organizer";
 	}
 		
 	
@@ -155,16 +203,21 @@ function eventdetails(eventdetails){
 	var complete_address="";
 	if(eventdetails.address !=null || eventdetails.city!=null || eventdetails.region!=null || eventdetails.country_abbr!=null){
 		complete_address="<b>Address : </b>"+eventdetails.address+"<br>"+eventdetails.city+", "+eventdetails.region+" "+eventdetails.country_abbr;
+		global_address=eventdetails.address+", "+eventdetails.city+", "+eventdetails.region+", "+eventdetails.country_abbr;
 	}else{
-		complete_address="<b>Address : </b>Address details are not specified by the organizer"
+		complete_address="<b>Address : </b>Address details are not specified by the organizer";
+		global_address="Address details are not specified by the organizer";
 	}
 		
 	
-	htmleventstag.append("<li><strong>On : " 
+	
+	htmleventstag.append("<li><table class='table'><tr><td><strong>On : " 
 			+ displayDate+ "<br> At : "
-			+time+"</strong><br><br>"
+			+time+"</strong><br>"
 			+venue_name+"<br>"
-			+complete_address+"<br><img class='img-thumbnail' src="
+			+complete_address+"</td>" +
+					"<td><div id='up' class='up fontawesome-thumbs-up'></div>" +
+					"</td></tr></table><img class='img-thumbnail' src="
 			+image+"></img><br>"
 			+ description +"<br><br><input type='hidden' class='each_event_id' value='"
 			+ eventdetails.postal_code + "' />"
@@ -172,6 +225,9 @@ function eventdetails(eventdetails){
 			+final_price_display+"</p></strong><br>"
 			+strperformer+"</li>");
 
+	
+	
+	
 	
 	var strticket="";
 	var tickets=[];
@@ -249,7 +305,7 @@ function eventdetails(eventdetails){
 }
 
 function venuedetails(venue){
-	console.log(venue);
+//	console.log(venue);
 //	var description="";
 //	if(venue.description !=null){
 //		description=venue.description;

@@ -136,52 +136,59 @@ function populate_events(result) {
 	
 	var htmleventstag = $("#events");
 	htmleventstag.empty();
-	var listofevents = result.events.event;
+	var listofevents="";
 	
-	//console.log(listofevents);
-	locations = [];
-	
-	$.each(listofevents, function(i, event) {
+	if(result.events != null){
+		listofevents = result.events.event;
 		
-		var formatteddate=new Date(event.start_time);
-		var image="";
-		if(event.image!=null ){
-			if(event.image.medium !=null){
-				image=event.image.medium.url;
+		console.log(result);
+		locations = [];
+		
+		$.each(listofevents, function(i, event) {
+			
+			var formatteddate=new Date(event.start_time);
+			var image="";
+			if(event.image!=null ){
+				if(event.image.medium !=null){
+					image=event.image.medium.url;
+					
+				}
+				else{
+					image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
+				}
 				
 			}
 			else{
 				image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
 			}
 			
-		}
-		else{
-			image="http://www.montana.edu/nsfadvance/images/upcomingEventsGraphic.png";
-		}
+			htmleventstag.append("<li><div class='div_event_name'><img src="+image+"></img><br><strong>" + event.title + "</strong><br/> " + formatteddate
+					+ "<br/>" + event.venue_address +", "+ event.city_name+	"<input type='hidden' class='each_event_id' value='" + event.id + "' /></div></li>");
 		
-		htmleventstag.append("<li><div class='div_event_name'><img src="+image+"></img><br><strong>" + event.title + "</strong><br/> " + formatteddate
-				+ "<br/>" + event.venue_address +", "+ event.city_name+	"<input type='hidden' class='each_event_id' value='" + event.id + "' /></div></li>");
-	
-		var custom_eventaddress="";
-		if(event.venue_address==null){
-			custom_eventaddress=event.city_name;
-		}
-		else{
-			custom_eventaddress=event.venue_address+", "+event.city_name;
-		}
-		locations.push({
-			name : event.title,
-			latlng : new google.maps.LatLng(event.latitude, event.longitude),
-			imagelink: image,
-			venue_name:event.venue_name,
-			id:event.id,
-			address:custom_eventaddress
+			var custom_eventaddress="";
+			if(event.venue_address==null){
+				custom_eventaddress=event.city_name;
+			}
+			else{
+				custom_eventaddress=event.venue_address+", "+event.city_name;
+			}
+			locations.push({
+				name : event.title,
+				latlng : new google.maps.LatLng(event.latitude, event.longitude),
+				imagelink: image,
+				venue_name:event.venue_name,
+				id:event.id,
+				address:custom_eventaddress
+			});
+
 		});
 
-	});
+		googlemap();
 
-	googlemap();
-	
+	}else{
+		$("#map").html("<b>No Such Events near your location. Please try another search.  <b>")
+	}
+		
 }
 
 function googlemap() {

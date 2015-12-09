@@ -63,10 +63,46 @@ Follow https://tomcat.apache.org/tomcat-9.0-doc/index.html for any errors.
 
 </ul>
 <h3>Running WHAM</h3>
-
+<h4>Running WHAM on localhost:</h4>
 <ol>
-      <li></li>
-      <li></li>
-      <li></li>
+      <li>Import the WHAM project in Eclipse IDE. </li>
+      <li>To test the project: Open project, either build using maven or run test by WHAM->src/test/java->Run TestSuite.java</li>
+      <li>To run the project: Right click on the project folder -> ‘Run as -> Run on server’ to run the project.</li>
+      <li>You can run the project on the browser of your choice.</li>
+      <li>Go to localhost http://localhost:8080/</li>
 </ol>
 
+<p><h5>Possible Errors:</h5>
+    You may get errors related to Tomcat server.
+You may get errors related to MySQL database.
+If you come across errors related to Spring/ Hibernate
+
+        <h5>Solution:</h5>
+    Check if your Tomcat server is installed properly.
+Follow https://tomcat.apache.org/tomcat-9.0-doc/index.html for any errors.
+
+Check if your MySQL is installed and connected properly. 
+Follow http://dev.mysql.com/doc/ for any errors.
+
+Check the installation of Spring/Hibernate
+Check the pom.xml file for username, password and connection details.
+Check the hibernate.cfg.xml file
+
+      </p>
+<hr>    
+<h3>Hosting Website</h3>
+<ul>
+      <li>Click on File  Export  WAR file. Give the location of WAR file.</li>
+      <li>Clone the repository of the hosted project on to local machine in a folder, lets say “wham-proj” using:
+      <code>git clone ssh://565e1c047628e17f38000024@techknights-whamapp.rhcloud.com/~/git/techknights.git/</code>
+      </li>
+      <li>Remove the src folder and only let readme and webapps folder remain</li>
+      <li>(step 2 and 3 only needs to be done once)</li>
+      <li>Add the WAR file from step one in webapps folder</li>
+      <li>In terminal, navigate to folder where cloned repo is(eg wham-proj) after</li>
+            <code>git add</code>
+      <li>Commit the changes using command </li>
+            <code>git commit –m “Add description of commit”</code>
+      <li>Push the code into the server.</li>
+            <code>git push</code>
+</ul>

@@ -92,7 +92,7 @@ Check the hibernate.cfg.xml file
 <hr>    
 <h3>Hosting Website</h3>
 <ul>
-      <li>Click on File  Export  WAR file. Give the location of WAR file.</li>
+      <li>Click on File -> Export -> WAR file. Give the location of WAR file.</li>
       <li>Clone the repository of the hosted project on to local machine in a folder, lets say “wham-proj” using:
       <code>git clone ssh://565e1c047628e17f38000024@techknights-whamapp.rhcloud.com/~/git/techknights.git/</code>
       </li>

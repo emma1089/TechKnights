@@ -45,11 +45,28 @@ Managing software development
     Make sure the main instant of tomcat is stopped.
 Add instance of Tomcat to Eclipse
 Follow https://tomcat.apache.org/tomcat-9.0-doc/index.html for any errors.
-
-    
       </p>
 <hr>      
 
-</ul>
+<li><h4>MySQL Installation and setup:</h4></li>
+      <ol>
+        <li>Install MySQL from https://www.mysql.com/downloads/  </li>
+        <li>In MySQL Workbench add connections.</li>
+      </ol>
 
+      <p><h5>Possible Errors:</h5>
+    This installation is straight forward. If you get any installation error.
+        <h5>Solution:</h5>
+    Follow http://dev.mysql.com/doc/ for any errors.
+      </p>
+<hr>     
+
+</ul>
+<h3>Running WHAM</h3>
+
+<ol>
+      <li></li>
+      <li></li>
+      <li></li>
+</ol>
 
